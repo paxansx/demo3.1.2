@@ -38,7 +38,8 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
 
     @Override
     public void updateUser(User user) {
-        if (userDao.findByName(user.getName()).getId().equals(user.getId())) {
+
+        if (userDao.findByName(user.getName())==null||userDao.findByName(user.getName()).getId().equals(user.getId())) {
             userDao.save(user);
         }
     }
