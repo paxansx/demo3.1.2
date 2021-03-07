@@ -48,7 +48,7 @@ public class AdminController {
 
 			user.setPassword(service.getUserById(user.getId()).getPassword());
 
-    		}if (!bCryptPasswordEncoder.matches(user.getPassword(), service.getUserById(user.getId()).getPassword())){
+    		}else if  (!bCryptPasswordEncoder.matches(user.getPassword(), service.getUserById(user.getId()).getPassword())){
 
     			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			}
