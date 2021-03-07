@@ -1,36 +1,95 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:height="http://www.w3.org/1999/xhtml" xmlns:background-color="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+    <title>User page</title>
+
 </head>
 <body>
-<table border="Users">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Password</th>
-        <th>Roles</th>
-    </tr>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+
+    <span class="navbar-brand">
+    <b><span sec:authentication="name" ></span></b>
+    <span> with roles: </span>
+    <span sec:authentication="principal.authorities" ></span>
+        </span>
+
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <ul class="navbar-nav mr-right">
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+<div class="container-fluid " >
+    <div class="row">
+        <div class="col-2 ">
+            <br>
+
+            <ul class="nav nav-pills flex-column">
+
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item">
+                        <a class="nav-link " href="/admin">Admin</a>
+                    </li>
+                </div>
+
+                <li class="nav-item">
+                    <a class="nav-link active " href="/user">User</a>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="col-10" style=" height: 100vh; background-color:ghostwhite;">
+            <br>
+            <h1>User information-page</h1>
+
+                    <div class="card">
+                        <h5 class="card-header">About user</h5>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
 
 
-    <tr th:each="userq:${user}">
-        <td th:text="${userq.getId()}">ID</td>
-        <td th:text="${userq.getName()}"> Name</td>
-        <td th:text="${userq.getPassword()}"> Password</td>
-        <td th:text="${userq.getRoles()}">Roles</td>
-
-    </tr>
-
-</table>
-
-</form>
-<br/>
-<br/>
-<a href="#" th:href="@{/logout}">Log Out</a>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="userq:${user}">
+                                    <td th:text="${userq.getId()}">ID</td>
+                                    <td th:text="${userq.getFirstName()}">First Name</td>
+                                    <td th:text="${userq.getLastName()}">Last Name</td>
+                                    <td th:text="${userq.getAge()}">Age</td>
+                                    <td th:text="${userq.getName()}">Email</td>
+                                    <td th:text="${userq.getRoles()}">Roles</td>
 
 
-
+                                </tr>
+                                </tbody>
+                            </table>
+                             </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

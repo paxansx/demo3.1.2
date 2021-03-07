@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.User;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -26,17 +25,13 @@ public class AdminController {
 
 
 	@GetMapping
-	public String usersPage(Model model){
+	public String usersPage(Model model, @ModelAttribute("user") User user){
 		model.addAttribute("users", service.getAllUser());
+		model.addAttribute("newUser", new User());
+		model.addAttribute("allRoles", roleService.getAllRole());
 		return "users";
 	}
 
-	@GetMapping("/userAdd")
-	public String  usersAdd(Model model, @ModelAttribute("user") User user){
-		model.addAttribute("newUser", new User());
-		model.addAttribute("allRoles", roleService.getAllRole());
-		return "/userAdd";
-	}
 
 	@PostMapping("/add")
 	public String  usersAdd(@ModelAttribute("user") User user, @RequestParam("role") String[] roles) {
@@ -47,23 +42,31 @@ public class AdminController {
 	}
 
 
-	@GetMapping("/userupdate/{id}")
-	public String updateUser(Model model, @PathVariable("id") long id){
-		model.addAttribute("allRoles", roleService.getAllRole());
-		model.addAttribute("user", service.getUserById(id));
-		return "/userUpdate";
-	}
 	@PostMapping("/update")
 	public String  update (@ModelAttribute("user") User user, @RequestParam("role") String[] roles) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    	if (user.getPassword().equals("")){
+
+			user.setPassword(service.getUserById(user.getId()).getPassword());
+
+    		}if (!bCryptPasswordEncoder.matches(user.getPassword(), service.getUserById(user.getId()).getPassword())){
+
+    			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			}
 		user.setRoles(roleService.getSetRole(roles));
 		service.updateUser(user);
 		return "redirect:/admin";
 	}
 
-	@PostMapping("/remove/{id}")
-	public String removeUser(@PathVariable("id")long id){
-		service.removeUser(id);
+	@PostMapping("/remove")
+	public String removeUser(@ModelAttribute("user") User user){
+		service.removeUser(user.getId());
 		return "redirect:/admin";
 	}
+	@GetMapping("/findOne")
+	@ResponseBody
+	public User findOne(Long id){
+
+		return service.getUserById(id);
+	}
+
 }
