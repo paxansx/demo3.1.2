@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -8,16 +8,18 @@ import com.example.demo.dao.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.model.User;
+
 import java.util.List;
 
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService,UserService {
+public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
 
-
-    public UserDetailsServiceImpl(UserRepository userRepository) {
+    public UserDetailsServiceImpl(@Lazy BCryptPasswordEncoder bCryptPasswordEncoder, UserRepository userRepository) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRepository = userRepository;
     }
 
@@ -25,20 +27,25 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return userRepository.findByName(s);
     }
+
     @Override
     public void addUser(User user) {
-        if (userRepository.findByName(user.getName())==null){
+        if (userRepository.findByName(user.getName()) == null) {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userRepository.save(user);
-
         }
 
     }
 
     @Override
     public void updateUser(User user) {
-
-        if (userRepository.findByName(user.getName())==null||
+        if (userRepository.findByName(user.getName()) == null ||
                 userRepository.findByName(user.getName()).getId().equals(user.getId())) {
+            if (user.getPassword().equals("")) {
+                user.setPassword(getUserById(user.getId()).getPassword());
+            } else if (!bCryptPasswordEncoder.matches(user.getPassword(), getUserById(user.getId()).getPassword())) {
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            }
             userRepository.save(user);
         }
     }
@@ -58,7 +65,6 @@ public class UserDetailsServiceImpl implements UserDetailsService,UserService {
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
-
 
 
 }
