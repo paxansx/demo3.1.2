@@ -17,8 +17,10 @@
     <span class="navbar-brand">
     <b><span sec:authentication="name" ></span></b>
     <span> with roles: </span>
-    <span sec:authentication="principal.authorities" ></span>
-        </span>
+     <span th:each="authority : ${#authentication.getAuthorities()}"
+           th:if="${authority.getAuthority().startsWith('ROLE_')}"
+           th:text="${authority.getAuthority().replaceFirst('ROLE_', ' ')}"></span>
+    </span>
 
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
@@ -78,7 +80,10 @@
                                     <td th:text="${userq.getLastName()}">Last Name</td>
                                     <td th:text="${userq.getAge()}">Age</td>
                                     <td th:text="${userq.getName()}">Email</td>
-                                    <td th:text="${userq.getRoles()}">Roles</td>
+                                    <td>  <span th:each="userRole:${user.roles}"
+                                                th:if="${userRole.getAuthority().startsWith('ROLE_')}"
+                                                th:text="${userRole.getAuthority().replaceFirst('ROLE_', ' ')}"></span>
+                                    </td>
 
 
                                 </tr>

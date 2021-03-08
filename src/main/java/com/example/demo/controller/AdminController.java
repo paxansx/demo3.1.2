@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequestMapping("/admin")
 public class AdminController {
-	final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService service ;
     private final RoleService roleService ;
 

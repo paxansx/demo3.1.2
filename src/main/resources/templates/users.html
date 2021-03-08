@@ -16,8 +16,10 @@
     <span class="navbar-brand">
     <b><span sec:authentication="name"></span></b>
     <span> with roles: </span>
-    <span sec:authentication="principal.authorities"></span>
-        </span>
+   <span th:each="authority : ${#authentication.getAuthorities()}"
+         th:if="${authority.getAuthority().startsWith('ROLE_')}"
+         th:text="${authority.getAuthority().replaceFirst('ROLE_', ' ')}"></span>
+    </span>
 
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
@@ -85,17 +87,15 @@
                                     <td th:text="${user.getLastName()}">Last Name</td>
                                     <td th:text="${user.getAge()}">Age</td>
                                     <td th:text="${user.getName()}">Email</td>
-                                    <td th:text="${user.getRoles()}">Roles</td>
+                                    <td>  <span th:each="userRole:${user.roles}"
+                                                th:if="${userRole.getAuthority().startsWith('ROLE_')}"
+                                                th:text="${userRole.getAuthority().replaceFirst('ROLE_', ' ')}"></span>
+                                    </td>
                                     <td><a th:href="@{/admin/findOne/(id=${user.id})}" class="btn btn-primary eBtn">Edit</a></td>
                                     <td>
                                         <a th:href="@{/admin/findOne/(id=${user.id})}" class="btn btn-danger dBtn">Delete</a>
                                     </td>
 
-
-                                    <!--                                <td> <form th:method="GET" th:action="@{admin/findOne/{id}(id=${user.id})}"  >-->
-                                    <!--                                    <input type="submit" class="btn btn-danger" value="Delete"/>-->
-                                    <!--                                </form></td>-->
-                                    <!--                <a href="#!" class="btn btn-primary">Go somewhere</a>-->
 
                                 </tr>
                                 </tbody>
