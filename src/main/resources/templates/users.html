@@ -80,25 +80,7 @@
 
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr th:each="user:${users}">
-                                    <td th:text="${user.getId()}">ID</td>
-                                    <td th:text="${user.getFirstName()}">First Name</td>
-                                    <td th:text="${user.getLastName()}">Last Name</td>
-                                    <td th:text="${user.getAge()}">Age</td>
-                                    <td th:text="${user.getName()}">Email</td>
-                                    <td>  <span th:each="userRole:${user.roles}"
-                                                th:if="${userRole.getAuthority().startsWith('ROLE_')}"
-                                                th:text="${userRole.getAuthority().replaceFirst('ROLE_', ' ')}"></span>
-                                    </td>
-                                    <td><a th:href="@{/admin/findOne/(id=${user.id})}"
-                                           class="btn btn-primary eBtn">Edit</a></td>
-                                    <td>
-                                        <a th:href="@{/admin/findOne/(id=${user.id})}" class="btn btn-danger dBtn">Delete</a>
-                                    </td>
-
-
-                                </tr>
+                                <tbody id="data1">
                                 </tbody>
                             </table>
 
@@ -112,13 +94,12 @@
                         <h5 class="card-header">Add new user</h5>
                         <div class="card-body">
                             <div class="container">
-                                <form class="form-horizontal text-center" th:method="POST"
-                                      th:action="@{/admin/add}" th:object="${newUser}">
+                                <form class="form-horizontal text-center">
                                     <div class="form-group">
                                         <label for="firstName" class="col-sm-2 control-label"
                                                style="font-weight: bold">First name</label>
                                         <div class="col-sm-4 offset-4 ">
-                                            <input type="text" th:field="*{firstName}" class="form-control"
+                                            <input type="text" class="form-control"
                                                    id="firstName" placeholder="First name">
                                         </div>
                                     </div>
@@ -126,15 +107,15 @@
                                         <label for="LastName" class="col-sm-2 control-label"
                                                style="font-weight: bold">Last name</label>
                                         <div class="col-sm-4 offset-4 ">
-                                            <input type="text" th:field="*{lastName}" class="form-control  "
-                                                   id="LastName" placeholder="Last name">
+                                            <input type="text" class="form-control  "
+                                                   id="lastName" placeholder="Last name">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="age" class="col-sm-2 control-label"
                                                style="font-weight: bold">Age</label>
                                         <div class="col-sm-4 offset-4 ">
-                                            <input type="number" th:field="*{age}" class="form-control "
+                                            <input type="number" class="form-control "
                                                    id="age" placeholder="Age">
                                         </div>
                                     </div>
@@ -142,7 +123,7 @@
                                         <label for="email" class="col-sm-2 control-label"
                                                style="font-weight: bold">Email</label>
                                         <div class="col-sm-4 offset-4 ">
-                                            <input type="email" th:field="*{name}" class="form-control "
+                                            <input type="email" class="form-control "
                                                    id="email" placeholder="Email">
                                         </div>
                                     </div>
@@ -150,7 +131,7 @@
                                         <label for="password" class="col-sm-2 control-label"
                                                style="font-weight: bold">Password</label>
                                         <div class="col-sm-4 offset-4 ">
-                                            <input type="password" th:field="*{password}"
+                                            <input type="password"
                                                    class="form-control " id="password"
                                                    placeholder="Password">
                                         </div>
@@ -169,7 +150,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="submit" class="btn btn-success" value="Add new user"/>
+                                    <input type="button" class="btn btn-success addBtn" value="Add new user"/>
 
                                 </form>
 
@@ -182,7 +163,7 @@
     </div>
 </div>
 <div class="editForm">
-    <form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
+    <form>
         <div id="editModal" class="modal fade"
              role="dialog" aria-label="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -196,21 +177,19 @@
                     <div class="modal-body">
                         <div class="container">
                             <form class="form-horizontal offset-5 text-center">
-                                <!--                                <fieldset disabled>-->
                                 <div class="form-group">
                                     <label for="id" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold ">ID</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="text" class="form-control" th:field="*{id}" id="id" name="id"
+                                        <input type="text" class="form-control" id="id" name="id"
                                                value="" readonly>
                                     </div>
                                 </div>
-                                <!--                                </fieldset>-->
                                 <div class="form-group">
                                     <label for="firstName1" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">First name</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="text" th:field="*{firstName}" class="form-control" id="firstName1"
+                                        <input type="text" class="form-control" id="firstName1"
                                                name="firstName1" value="">
                                     </div>
                                 </div>
@@ -218,7 +197,7 @@
                                     <label for="lastName1" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">Last name</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="text" th:field="*{lastName}" class="form-control  " id="lastName1"
+                                        <input type="text" class="form-control  " id="lastName1"
                                                name="LastName1" value="">
                                     </div>
                                 </div>
@@ -226,7 +205,7 @@
                                     <label for="age1" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">Age</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="number" th:field="*{age}" class="form-control " id="age1"
+                                        <input type="number" class="form-control " id="age1"
                                                name="age1"
                                                value="">
                                     </div>
@@ -235,7 +214,7 @@
                                     <label for="email1" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">Email</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="email" th:field="*{name}" class="form-control " id="email1"
+                                        <input type="email" class="form-control " id="email1"
                                                name="email1" value="">
                                     </div>
                                 </div>
@@ -243,7 +222,7 @@
                                     <label for="password1" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">Password</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="password" th:field="*{password}" class="form-control "
+                                        <input type="password" class="form-control "
                                                id="password1"
                                                name="password1">
                                     </div>
@@ -262,11 +241,10 @@
                                         </select>
                                     </div>
                                 </div>
-
-
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <input type="submit" class="btn btn-primary" value="Edit"/>
+                                    <input type="button" class="btn btn-primary upBtn" data-dismiss="modal"
+                                           value="Edit"/>
                                 </div>
                             </form>
                         </div>
@@ -277,13 +255,13 @@
     </form>
 </div>
 <div class="deleteForm">
-    <form th:method="POST" th:action="@{/admin/remove}" th:object="${user}">
+    <form>
         <div id="deleteModal" class="modal fade"
              role="dialog" aria-label="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="deleteModalLabel">Edit user</h4>
+                        <h4 class="modal-title" id="deleteModalLabel">Delete user</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -296,7 +274,7 @@
                                     <label for="id2" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold ">ID</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="text" class="form-control" th:field="*{id}" id="id2" name="id"
+                                        <input type="text" class="form-control" id="id2" name="id"
                                                value="" readonly>
                                     </div>
                                 </div>
@@ -305,7 +283,7 @@
                                     <label for="firstName2" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">First name</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="text" th:field="*{firstName}" class="form-control" id="firstName2"
+                                        <input type="text" class="form-control" id="firstName2"
                                                name="firstName1" value="" readonly>
                                     </div>
                                 </div>
@@ -313,7 +291,7 @@
                                     <label for="lastName2" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">Last name</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="text" th:field="*{lastName}" class="form-control  " id="lastName2"
+                                        <input type="text" class="form-control  " id="lastName2"
                                                name="LastName1" value="" readonly>
                                     </div>
                                 </div>
@@ -321,7 +299,7 @@
                                     <label for="age2" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">Age</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="number" th:field="*{age}" class="form-control " id="age2"
+                                        <input type="number" class="form-control " id="age2"
                                                name="age1"
                                                value="" readonly>
                                     </div>
@@ -330,7 +308,7 @@
                                     <label for="email2" class="col-sm-2 control-label offset-5 text-center"
                                            style="font-weight: bold">Email</label>
                                     <div class="col-sm-4 offset-4 ">
-                                        <input type="email" th:field="*{name}" class="form-control " id="email2"
+                                        <input type="email" class="form-control " id="email2"
                                                name="email1" value="" readonly>
                                     </div>
                                 </div>
@@ -356,7 +334,8 @@
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <input type="submit" class="btn btn-danger" value="Delete"/>
+                                    <input type="button" class="btn btn-danger remBtn" data-dismiss="modal"
+                                           value="Delete"/>
                                 </div>
                             </form>
                         </div>

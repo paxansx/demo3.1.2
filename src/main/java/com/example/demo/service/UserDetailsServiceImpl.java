@@ -41,9 +41,11 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
     public void updateUser(User user) {
         if (userRepository.findByName(user.getName()) == null ||
                 userRepository.findByName(user.getName()).getId().equals(user.getId())) {
-            if (user.getPassword().equals("")) {
+
+            if (user.getPassword().equals("") ||
+                    bCryptPasswordEncoder.matches(user.getPassword(), getUserById(user.getId()).getPassword())) {
                 user.setPassword(getUserById(user.getId()).getPassword());
-            } else if (!bCryptPasswordEncoder.matches(user.getPassword(), getUserById(user.getId()).getPassword())) {
+            } else {
                 user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             }
             userRepository.save(user);
