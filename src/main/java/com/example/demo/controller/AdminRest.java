@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.UserService;
@@ -10,12 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class RestControllerAdmin {
+public class AdminRest {
 
     private final UserService service;
     private final RoleService roleService;
 
-    public RestControllerAdmin(UserService service, RoleService roleService) {
+    public AdminRest(UserService service, RoleService roleService) {
         this.service = service;
         this.roleService = roleService;
 
@@ -34,13 +35,13 @@ public class RestControllerAdmin {
 
     @PostMapping("/users")
     public void addUser(@RequestBody User user) {
-        user.setRoles(roleService.getSetRole(user.getRoles()));
+        user.setRoles(roleService.getSetRole(user.getRoles())); //это тут потому что криво передаю роль с клиента
         service.addUser(user);
     }
 
     @PutMapping("/users")
     public void updateUser(@RequestBody User user) {
-        user.setRoles(roleService.getSetRole(user.getRoles()));
+        user.setRoles(roleService.getSetRole(user.getRoles()));//это тут потому что криво передаю роль с клиента
         service.updateUser(user);
     }
 
@@ -48,9 +49,8 @@ public class RestControllerAdmin {
     public void deleteUser(@PathVariable long id) {
         service.removeUser(id);
     }
-    @GetMapping("/user")
-    public User userData(Principal principal) {
-        return (User) service.loadUserByUsername(principal.getName());
-    }
+
+
+
 
 }

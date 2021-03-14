@@ -141,12 +141,9 @@
                                                style="font-weight: bold">Role</label>
                                         <div class="col-sm-4 offset-4 ">
                                             <select id="roles" multiple size="2" name="role"
-                                                    th:required="true" class="custom-select">
-                                                <option
-                                                        th:each="role:${allRoles}"
-                                                        th:value="${role.getAuthority()}"
-                                                        th:text="${role.getAuthority()}">
-                                                </option>
+                                                     class="custom-select">
+                                                <option>ADMIN</option>
+                                                <option>USER</option>
                                             </select>
                                         </div>
                                     </div>
@@ -232,12 +229,9 @@
                                            style="font-weight: bold">Role</label>
                                     <div class="col-sm-4 offset-4 ">
                                         <select id="roles1" multiple size="2" name="role"
-                                                th:required="true" class="custom-select">
-                                            <option
-                                                    th:each="role:${allRoles}"
-                                                    th:value="${role.getAuthority()}"
-                                                    th:text="${role.getAuthority()}">
-                                            </option>
+                                                 class="custom-select">
+                                            <option>ADMIN</option>
+                                            <option>USER</option>
                                         </select>
                                     </div>
                                 </div>
@@ -320,12 +314,9 @@
 
                                         <div class="col-sm-4 offset-4 ">
                                             <select id="roles2" multiple size="2" name="role"
-                                                    th:required="true" class="custom-select">
-                                                <option
-                                                        th:each="role:${allRoles}"
-                                                        th:value="${role.getAuthority()}"
-                                                        th:text="${role.getAuthority()}">
-                                                </option>
+                                                    class="custom-select">
+                                                <option>ADMIN</option>
+                                                <option>USER</option>
                                             </select>
                                         </div>
                                     </div>

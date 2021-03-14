@@ -27,7 +27,11 @@ public class RoleServiceImpl implements RoleService {
     public Set<Role> getSetRole(Set<Role> roles) {
         Set<Role> roleSet = new HashSet<>();
         for (Object role: roles) {
-            roleSet.add(roleRepository.findRoleByRole(role.toString()));
+            if (role.toString().equals("ADMIN")) {
+                roleSet.add(roleRepository.findRoleByRole("ROLE_ADMIN"));
+            }else {
+                roleSet.add(roleRepository.findRoleByRole("ROLE_USER"));
+            }
         }
         return roleSet;
     }
