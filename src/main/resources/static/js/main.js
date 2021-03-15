@@ -78,13 +78,17 @@ function show()
 }
 
 
+function activaTab(tab){
+    $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+};
+
 $(document).ready(function () {
 
     show();
     setInterval('show()',3000);
 
     $('.addBtn').click( function(){
-
+        activaTab('allUsers');
         fetch('/api/users', {
             method: 'post',
             body: JSON.stringify({firstName: $('#firstName').val(), lastName: $('#lastName').val(),
